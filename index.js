@@ -30,30 +30,72 @@ fs.readFile("db/contacts.json", "utf-8")
 const fs = require("fs/promises");
 const path = require("path");
 
-// const listContacts = require("./contacts");
+const { listContacts, getContactById, addContact } = require("./contacts");
 
-console.log("START");
-
+// console.log("START");
+/*
 const contactsPath = path.join(__dirname, "db/contacts.json");
 
 // const listContacts = async qwe => {
 function listContacts(qwe) {
   console.log("FUNCTION-1");
 
-  async () => {
-    console.log("FUNCTION-2");
-    const data = await fs.readFile(contactsPath);
-    console.log("FUNCTION-3");
+  // async () => {
+  console.log("FUNCTION-2");
+  // const data = await fs.readFile(contactsPath);
+  const data = fs
+    .readFile(contactsPath)
+    .then(data => {
+      console.log("data:", data);
+      JSON.parse(data);
+    })
+    .catch(error => console.log("ERROR", error.message));
 
-    console.log("data:", data);
-    console.log("qwe:", qwe);
+  console.log("FUNCTION-3");
 
-    const contacts = JSON.parse(data);
-    console.log("contact-10:", contacts[9]);
-    return contacts;
-  };
+  console.log("data:", data);
+  console.log("qwe:", qwe);
+
+  const contacts = JSON.parse(data);
+  console.log("contact-10:", contacts[9]);
+  return contacts;
+  // };
 }
 // console.log("listContacts:", listContacts());
-console.log("END");
+*/
+// console.log("END");
 
-listContacts("!!!qwerty");
+// listContacts("!!!qwerty");
+
+// ======= Get all contacts ===========
+// let getAll = async () => {
+//   const contacts = await listContacts();
+//   console.log(contacts[0]);
+// };
+// getAll();
+
+// listContacts().then(data => console.log(data[1]));
+
+// ======= Get contact by ID ===========
+// let contactById = async id => {
+//   const rez = await getContactById(id);
+//   if (!rez) {
+//     throw new Error(`Contact with ID=${id} not found!`);
+//   }
+//   console.log(rez);
+// };
+// contactById("9");
+// contactById(8); // must be a String
+
+// ======= Add new contact ===========
+const newContact = {
+  name: "Michael Jackson",
+  email: "jackson@gmail.com",
+  phone: "(111) 111-1111",
+};
+
+let addNew = async data => {
+  const contacts = await addContact(data);
+  console.log(contacts);
+};
+addNew(newContact);
