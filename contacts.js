@@ -1,29 +1,15 @@
 const fs = require("fs/promises");
-
 const path = require("path");
 const { nanoid } = require("nanoid");
 
 const contactsPath = path.join(__dirname, "db/contacts.json");
-// console.log("__dirname:", __dirname);
-// console.log("contactsPath:", contactsPath);
 
-// ==== get all contacts ====
-// function listContacts() {
-//   async () => {
-//     const data = await fs.readFile(contactsPath);
-
-//     console.log("data:", data);
-//     const contacts = JSON.parse(data);
-//     console.log("contacts:", contacts);
-//     return contacts;
-//   };
-// }
-// const listContacts = async () => {
 async function listContacts() {
   const data = await fs.readFile(contactsPath);
-
   const contacts = JSON.parse(data);
-  // console.log("contact-10:", contacts[9]);
+  if (!contacts) {
+    return null;
+  }
   return contacts;
 }
 
@@ -36,15 +22,26 @@ async function getContactById(contactId) {
   return result;
 }
 
-// async function removeContact(contactId) {
-//   // ...твой код
-// }
-
-async function addContact(data) {
-  // name, email, phone
+async function addContact(name, email, phone) {
   const contactsArray = await listContacts();
-  const newContact = { ...data, id: nanoid() };
-  console.log("ID of newContact:", newContact.id);
+  const newContact = { id: nanoid(), name, email, phone };
+  contactsArray.push(newContact);
+  await fs.writeFile(contactsPath, JSON.stringify(contactsArray));
+  if (!newContact) {
+    return null;
+  }
+  return newContact;
 }
 
-module.exports = { listContacts, getContactById, addContact };
+async function removeContact(contactId) {
+  const contactsArray = await listContacts();
+  const indx = contactsArray.findIndex(contact => contact.id === contactId);
+  if (indx === -1) {
+    return null;
+  }
+  const updatedContacts = contactsArray.filter((_, index) => index !== indx);
+  await fs.writeFile(contactsPath, JSON.stringify(updatedContacts));
+  return contactsArray[indx];
+}
+
+module.exports = { listContacts, getContactById, addContact, removeContact };

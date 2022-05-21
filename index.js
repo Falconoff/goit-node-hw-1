@@ -1,101 +1,51 @@
-// const fs = require("fs").promises;
+const { program } = require("commander");
 
-// fs.readdir(__dirname)
-//   .then(files => {
-//     return Promise.all(
-//       files.map(async filename => {
-//         console.log("filename:", filename);
-//         const stats = await fs.stat(filename);
-//         return {
-//           Name: filename,
-//           Size: stats.size,
-//           Date: stats.mtime.toLocaleDateString(),
-//         };
-//       }),
-//     );
-//   })
-//   .then(result => {
-//     console.log("result:", result);
-//     console.table(result);
-//   });
-/*
-const fs = require("fs/promises");
+const {
+  listContacts,
+  getContactById,
+  addContact,
+  removeContact,
+} = require("./contacts");
 
-fs.readFile("db/contacts.json", "utf-8")
-  // .then(data => console.log(data.toString()))
-  .then(data => console.log(data))
-  .catch(error => console.log(error.message));
-*/
+async function invokeAction({ action, id, name, email, phone }) {
+  switch (action) {
+    case "list":
+      const contacts = await listContacts();
+      console.table(contacts);
+      break;
 
-const fs = require("fs/promises");
-const path = require("path");
+    case "get":
+      const contact = await getContactById(id);
+      if (!contact) {
+        throw new Error(`Contact with ID=${id} not found!`);
+      }
+      console.log(contact);
+      break;
 
-const { listContacts, getContactById, addContact } = require("./contacts");
+    case "add":
+      const newContact = await addContact(name, email, phone);
+      console.log(newContact);
+      break;
 
-// console.log("START");
-/*
-const contactsPath = path.join(__dirname, "db/contacts.json");
+    case "remove":
+      const removedContact = await removeContact(id);
+      console.log(removedContact);
+      break;
 
-// const listContacts = async qwe => {
-function listContacts(qwe) {
-  console.log("FUNCTION-1");
-
-  // async () => {
-  console.log("FUNCTION-2");
-  // const data = await fs.readFile(contactsPath);
-  const data = fs
-    .readFile(contactsPath)
-    .then(data => {
-      console.log("data:", data);
-      JSON.parse(data);
-    })
-    .catch(error => console.log("ERROR", error.message));
-
-  console.log("FUNCTION-3");
-
-  console.log("data:", data);
-  console.log("qwe:", qwe);
-
-  const contacts = JSON.parse(data);
-  console.log("contact-10:", contacts[9]);
-  return contacts;
-  // };
+    default:
+      console.warn("\x1B[31m Unknown action type!");
+  }
 }
-// console.log("listContacts:", listContacts());
-*/
-// console.log("END");
 
-// listContacts("!!!qwerty");
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
 
-// ======= Get all contacts ===========
-// let getAll = async () => {
-//   const contacts = await listContacts();
-//   console.log(contacts[0]);
-// };
-// getAll();
+program.parse(process.argv);
 
-// listContacts().then(data => console.log(data[1]));
+const argv = program.opts();
 
-// ======= Get contact by ID ===========
-// let contactById = async id => {
-//   const rez = await getContactById(id);
-//   if (!rez) {
-//     throw new Error(`Contact with ID=${id} not found!`);
-//   }
-//   console.log(rez);
-// };
-// contactById("9");
-// contactById(8); // must be a String
-
-// ======= Add new contact ===========
-const newContact = {
-  name: "Michael Jackson",
-  email: "jackson@gmail.com",
-  phone: "(111) 111-1111",
-};
-
-let addNew = async data => {
-  const contacts = await addContact(data);
-  console.log(contacts);
-};
-addNew(newContact);
+invokeAction(argv);
