@@ -6,18 +6,23 @@
   `node index.js --action list`
 
 - [2. Получаем контакт по id; 3. Добавялем контакт; 4. Удаляем контакт](https://ibb.co/xSxR4f5)
-  `node index.js --action get --id 5`
-  `node index.js --action add --name Mango --email mango@gmail.com --phone 322-22-22`
-  `node index.js --action remove --id=3`
+
+  1. `node index.js --action get --id 5`
+
+  2. `node index.js --action add --name Mango --email mango@gmail.com --phone 322-22-22`
+
+  3. `node index.js --action remove --id=3`
 
 - [5. Получаем и выводим весь список контактов (повторно); 6. Вводим неверную команду](https://ibb.co/yqg3Pyt)
-  `node index.js --action list` `node index.js --action list000`
+
+  1. `node index.js --action list`
+  2. `node index.js --action list000`
 
 ## CLI
 
 [Homework tasks](https://github.com/goitacademy/nodejs-homework/tree/master/homework-01#readme)
 
-Commands:
+<!-- Commands:
 
 - Get all contacts: `node index -a list`
 
@@ -28,4 +33,4 @@ Commands:
 
 - Remove contact: `node index -a remove -i 444`
 
-- Error: `node index -a list777`
+- Error: `node index -a list777` -->
