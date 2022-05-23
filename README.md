@@ -1,4 +1,4 @@
-# goit-node-hw-1
+# goit-node-hw-1 CLI
 
 ## Results for mentor:
 
@@ -7,16 +7,16 @@
 
 - [2. Получаем контакт по id; 3. Добавялем контакт; 4. Удаляем контакт](https://ibb.co/xSxR4f5)
 
-  1. `node index.js --action get --id 5`
+  - - `node index.js --action get --id 5`
 
-  2. `node index.js --action add --name Mango --email mango@gmail.com --phone 322-22-22`
+  - - `node index.js --action add --name Mango --email mango@gmail.com --phone 322-22-22`
 
-  3. `node index.js --action remove --id=3`
+  - - `node index.js --action remove --id=3`
 
 - [5. Получаем и выводим весь список контактов (повторно); 6. Вводим неверную команду](https://ibb.co/yqg3Pyt)
 
-  1. `node index.js --action list`
-  2. `node index.js --action list000`
+  - - `node index.js --action list`
+  - - `node index.js --action list000`
 
 ## CLI
 
